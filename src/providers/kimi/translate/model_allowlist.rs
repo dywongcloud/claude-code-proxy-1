@@ -21,6 +21,7 @@ static ALIAS_TARGETS: once_cell::sync::Lazy<HashMap<&'static str, &'static str>>
         m.insert("kimi-k3.1-pro", "k3.1");
         m.insert("kimi-k3", "k3");
         m.insert("k3", "k3");
+        m
     });
 
 const ALLOWED_MODELS: &[&str] = &["kimi-for-coding", "k3"];
