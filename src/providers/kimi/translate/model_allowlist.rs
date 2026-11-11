@@ -18,13 +18,14 @@ static ALIAS_TARGETS: once_cell::sync::Lazy<HashMap<&'static str, &'static str>>
         m.insert("fable", KIMI_DEFAULT_MODEL);
         m.insert("claude-fable-5", KIMI_DEFAULT_MODEL);
         m.insert("kimi-for-coding", KIMI_DEFAULT_MODEL);
-        m.insert("kimi-k3.1-pro", "k3.1");
+        m.insert("kimi-k3.1-pro", "k3.1-pro");
+        m.insert("k3.1-pro", "k3.1-pro");
         m.insert("kimi-k3", "k3");
         m.insert("k3", "k3");
         m
     });
 
-const ALLOWED_MODELS: &[&str] = &["kimi-for-coding", "k3", "k3.1"];
+const ALLOWED_MODELS: &[&str] = &["kimi-for-coding", "k3", "k3.1-pro"];
 
 pub fn resolve_model(model: &str) -> String {
     ALIAS_TARGETS
@@ -35,7 +36,7 @@ pub fn resolve_model(model: &str) -> String {
 }
 
 pub fn is_k3(model: &str) -> bool {
-    model == "k3"
+    matches!(model, "k3" | "k3.1-pro")
 }
 
 pub fn assert_allowed_model(model: &str) -> Result<(), ModelNotAllowedError> {
@@ -108,8 +109,19 @@ mod tests {
     }
 
     #[test]
-    fn k3_detected() {
+    fn resolve_kimi_k3_1_pro_to_k3_1_pro() {
+        assert_eq!(resolve_model("kimi-k3.1-pro"), "k3.1-pro");
+    }
+
+    #[test]
+    fn resolve_k3_1_pro_to_k3_1_pro() {
+        assert_eq!(resolve_model("k3.1-pro"), "k3.1-pro");
+    }
+
+    #[test]
+    fn k3_family_detected() {
         assert!(is_k3("k3"));
+        assert!(is_k3("k3.1-pro"));
         assert!(!is_k3("kimi-for-coding"));
     }
 
@@ -121,6 +133,11 @@ mod tests {
     #[test]
     fn assert_allowed_accepts_k3() {
         assert!(assert_allowed_model("k3").is_ok());
+    }
+
+    #[test]
+    fn assert_allowed_accepts_k3_1_pro() {
+        assert!(assert_allowed_model("k3.1-pro").is_ok());
     }
 
     #[test]
