@@ -21,11 +21,12 @@ static ALIAS_TARGETS: once_cell::sync::Lazy<HashMap<&'static str, &'static str>>
         m.insert("kimi-k3.1-pro", "k3.1-pro");
         m.insert("k3.1-pro", "k3.1-pro");
         m.insert("kimi-k3", "k3");
+        m.insert("kimi-k3-256k", "k3-256k");
         m.insert("k3", "k3");
         m
     });
 
-const ALLOWED_MODELS: &[&str] = &["kimi-for-coding", "k3", "k3.1-pro"];
+const ALLOWED_MODELS: &[&str] = &["kimi-for-coding", "k3", "k3.1-pro", "k3-256k"];
 
 pub fn resolve_model(model: &str) -> String {
     ALIAS_TARGETS
