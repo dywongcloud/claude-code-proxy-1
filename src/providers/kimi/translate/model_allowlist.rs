@@ -24,7 +24,7 @@ static ALIAS_TARGETS: once_cell::sync::Lazy<HashMap<&'static str, &'static str>>
         m
     });
 
-const ALLOWED_MODELS: &[&str] = &["kimi-for-coding", "k3"];
+const ALLOWED_MODELS: &[&str] = &["kimi-for-coding", "k3", "k3.1"];
 
 pub fn resolve_model(model: &str) -> String {
     ALIAS_TARGETS
